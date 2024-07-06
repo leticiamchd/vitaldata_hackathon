@@ -37,7 +37,8 @@ def main():
         st.session_state.show_patient_data = True
 
     if st.session_state.show_patient_data:
-        st.title("Dados do Paciente")
+        st.markdown("<h1 style='text-align: center; color: black;'>Dados do Paciente </h1>", unsafe_allow_html=True)
+        #st.title("Dados do Paciente")
         st.write("CNS: xxxxxxxxxxx")
         st.write("Nome: xxxxxxxxxxx")
         st.write("Nome da Mãe: xxxxxxxxxxx")
@@ -48,24 +49,45 @@ def main():
             st.session_state.show_request_form = True
 
     if st.session_state.show_request_form:
-        st.title("Informações de Solicitação")
+        st.markdown("<h1 style='text-align: center; color: black;'>Informações de Solicitação</h1>", unsafe_allow_html=True)
+        #st.title("Informações de Solicitação")
 
-        cid_paciente = st.text_input("Qual o CID suspeito?")
+        # Information boxes before making a decision
+        peso = st.text_input("Peso")
+        altura = st.text_input("Altura")
+        circunferencia_abdominal = st.text_input("Circunferência abdominal")
+        
+        comorbidities = st.selectbox("Comorbidades", ['',"Não", "Sim"])
+        if comorbidities == "Sim":
+            comorbidities_options = ["HAS", "DM", "IRC", "IRaC", "DLP", "Neoplasia", "Depressão/Ansiedade", "Doença vascular", "AVE/IAM", "Infecção por Covid-19", "Outras não especificadas"]
+            selected_comorbidities = st.multiselect("Descrever comorbidades", comorbidities_options)
+        
+        previous_diagnosis = st.selectbox("Diagnóstico prévio", ['',"Não", "Sim"])
+        if previous_diagnosis == "Sim":
+            diagnosis_desc = st.text_input("Digitar CID")
+        
+        renal_disease_allergy = st.selectbox("Doença renal crônica ou alergia a contraste (Gadolínio)", ['',"Não", "Sim"])
+        sedation_needed = st.selectbox("Há necessidade de sedação", ['',"Não", "Sim"])
 
-        options_purpose = ['Follow up / acompanhamento', 'Rastreamento', 'Suspeita', 'Estadiamento', 'Esclarecer diagnóstico']
-        purpose = st.selectbox('Qual a finalidade da solicitação desse exame?', [''] + options_purpose)
+        if renal_disease_allergy == 'Sim':
+            st.write("Contraindicação para Realização do Exame")
+        elif renal_disease_allergy == 'Não':
 
-        # Function to handle purpose selection
-        if purpose == 'Follow up / acompanhamento':
-            display_follow_up_options()
-        elif purpose == 'Rastreamento':
-            display_screening_options()
-        elif purpose == 'Suspeita':
-            display_suspect_options()
-        elif purpose == 'Estadiamento':
-            display_staging_options()
-        elif purpose == 'Esclarecer diagnóstico':
-            display_diagnostic_options()
+            cid_paciente = st.text_input("Qual o CID suspeito?")
+            options_purpose = ['Follow up / acompanhamento', 'Rastreamento', 'Suspeita', 'Estadiamento', 'Esclarecer diagnóstico']
+            purpose = st.selectbox('Qual a finalidade da solicitação desse exame?', [''] + options_purpose)
+
+            # Function to handle purpose selection
+            if purpose == 'Follow up / acompanhamento':
+                display_follow_up_options()
+            elif purpose == 'Rastreamento':
+                display_screening_options()
+            elif purpose == 'Suspeita':
+                display_suspect_options()
+            elif purpose == 'Estadiamento':
+                display_staging_options()
+            elif purpose == 'Esclarecer diagnóstico':
+                display_diagnostic_options()
 
 def display_follow_up_options():
     options_follow_up = ['Câncer Renal', 'Câncer Próstata', 'Câncer Bexiga', 'Câncer Testículo', 'Tumor osso primário em ossos do quadril', 'Outra']
@@ -78,7 +100,6 @@ def display_follow_up_options():
         #st.write("Negado")
         st.image(image_button_neg, caption=None, output_format="JPEG")
         
-
 def display_staging_options():
     options_staging = ['Câncer Coloretal', 'Câncer de Ovário', 'Câncer de Vagina', 'Câncer na Vulva', 'Doença Trofoblástica Gestacional', 'Outra']
     staging = st.selectbox('Tipo de estadiamento:', [''] + options_staging)
@@ -129,7 +150,6 @@ def display_ovarian_options():
         #st.write("Aprovado")
         st.image(image_button_aprov, caption=None, output_format="JPEG")
 
-
 def display_vaginal_options():
     treatment = st.selectbox('Já realizou tratamento?', ['', 'Sim', 'Não'])
     
@@ -146,7 +166,6 @@ def display_vaginal_options():
         #st.write("Aprovado")
         st.image(image_button_aprov, caption=None, output_format="JPEG")
 
-
 def display_vulvar_options():
     treatment = st.selectbox('Já realizou tratamento?', ['', 'Sim', 'Não'])
     
@@ -162,7 +181,6 @@ def display_vulvar_options():
     elif treatment == 'Não':
         #st.write("Aprovado")
         st.image(image_button_aprov, caption=None, output_format="JPEG")
-
 
 def display_gtg_options():
     confirmed_diagnosis = st.selectbox('Diagnóstico confirmado?', ['', 'Sim', 'Não'])
