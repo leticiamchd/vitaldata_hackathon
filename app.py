@@ -37,8 +37,7 @@ def main():
         st.session_state.show_patient_data = True
 
     if st.session_state.show_patient_data:
-        st.markdown("<h1 style='text-align: center; color: black;'>Dados do Paciente </h1>", unsafe_allow_html=True)
-        #st.title("Dados do Paciente")
+        st.title("Dados do Paciente")
         st.write("CNS: xxxxxxxxxxx")
         st.write("Nome: xxxxxxxxxxx")
         st.write("Nome da Mãe: xxxxxxxxxxx")
@@ -49,8 +48,7 @@ def main():
             st.session_state.show_request_form = True
 
     if st.session_state.show_request_form:
-        st.markdown("<h1 style='text-align: center; color: black;'>Informações de Solicitação</h1>", unsafe_allow_html=True)
-        #st.title("Informações de Solicitação")
+        st.title("Informações de Solicitação")
 
         cid_paciente = st.text_input("Qual o CID suspeito?")
 
